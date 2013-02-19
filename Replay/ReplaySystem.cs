@@ -6,61 +6,61 @@ using System.Threading.Tasks;
 
 namespace Kinect.Toolbox.Record
 {
-    class ReplaySystem<T>  where T:ReplayFrame, new()
-    {
-        internal event Action<T> FrameReady;
-        readonly List<T> frames = new List<T>();
+	internal abstract class ReplayBase<T> where T : ReplayFrame, new()
+	{
+		protected readonly List<T> frames = new List<T>();
+		private CancellationTokenSource cancellationTokenSource;
+		internal virtual event Action<T> FrameReady;
 
-        CancellationTokenSource cancellationTokenSource;
+		internal abstract void AddFrame(BinaryReader reader);
 
-        public bool IsFinished
-        {
-            get;
-            private set;
-        }
+		public bool IsFinished { get; private set; }
 
-        internal void AddFrame(BinaryReader reader)
-        {
-            T frame = new T();
+		public void Start()
+		{
+			Stop();
 
-            frame.CreateFromReader(reader);
+			IsFinished = false;
 
-            frames.Add(frame);
-        }
+			cancellationTokenSource = new CancellationTokenSource();
 
-        public void Start()
-        {
-            Stop();
+			CancellationToken token = cancellationTokenSource.Token;
 
-            IsFinished = false;
+			Task.Factory.StartNew(() =>
+											 {
+												 foreach (T frame in frames)
+												 {
+													 Thread.Sleep(TimeSpan.FromMilliseconds(frame.TimeStamp));
 
-            cancellationTokenSource = new CancellationTokenSource();
+													 if (token.IsCancellationRequested)
+														 break;
 
-            CancellationToken token = cancellationTokenSource.Token;
+													 if (FrameReady != null)
+														 FrameReady(frame);
+												 }
 
-            Task.Factory.StartNew(() =>
-            {
-                foreach (T frame in frames)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(frame.TimeStamp));
+												 IsFinished = true;
+											 }, token);
+		}
 
-                    if (token.IsCancellationRequested)
-                        break;
+		public void Stop()
+		{
+			if (cancellationTokenSource == null)
+				return;
 
-                    if (FrameReady != null)
-                        FrameReady(frame);
-                }
+			cancellationTokenSource.Cancel();
+		}
+	}
 
-                IsFinished = true;
-            }, token);
-        }
+	class ReplaySystem<T> : ReplayBase<T> where T : ReplayFrame, new()
+	{
+		internal override void AddFrame(BinaryReader reader)
+		{
+			T frame = new T();
 
-        public void Stop()
-        {
-            if (cancellationTokenSource == null)
-                return;
+			frame.CreateFromReader(reader);
 
-            cancellationTokenSource.Cancel();
-        }
-    }
+			frames.Add(frame);
+		}
+	}
 }

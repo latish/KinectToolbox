@@ -44,7 +44,13 @@ namespace Kinect.Toolbox.Record
             previousFlushDate = DateTime.Now;
         }
 
-        public void Record(SkeletonFrame frame)
+	    public KinectRecorder(KinectRecordOptions options, Stream recordStream, byte[] colorToDepthRelationalParameters):this(options,recordStream)
+	    {
+            writer.Write(colorToDepthRelationalParameters.Length);
+            writer.Write(colorToDepthRelationalParameters);
+	    }
+
+	    public void Record(SkeletonFrame frame)
         {
             if (writer == null)
                 throw new Exception("This recorder is stopped");

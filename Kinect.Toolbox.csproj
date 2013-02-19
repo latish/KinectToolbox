@@ -82,10 +82,12 @@
     <Compile Include="Postures\TemplatedPostureDetector.cs" />
     <Compile Include="AudioStreamManager.cs" />
     <Compile Include="Record\ColorRecorder.cs" />
+    <Compile Include="Replay\ReplayAllFrames.cs" />
     <Compile Include="Replay\Color\ReplayColorImageFrame.cs" />
     <Compile Include="Replay\Color\ReplayColorImageFrameReadyEventArgs.cs" />
     <Compile Include="Replay\Depth\ReplayDepthImageFrame.cs" />
     <Compile Include="Replay\Depth\ReplayDepthImageFrameReadyEventArgs.cs" />
+    <Compile Include="Replay\ReplayAllFramesSystem.cs" />
     <Compile Include="Replay\ReplayFrame.cs" />
     <Compile Include="Replay\ReplaySystem.cs" />
     <Compile Include="Record\DepthRecorder.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Notifier.cs" />
     <Compile Include="Postures\PostureDetector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Replay\Skeletons\ReplayAllFramesReadyEventArgs.cs" />
     <Compile Include="Replay\Skeletons\ReplaySkeletonFrame.cs" />
     <Compile Include="Replay\Skeletons\ReplaySkeletonFrameReadyEventArgs.cs" />
     <Compile Include="SkeletonDisplayManager.cs" />

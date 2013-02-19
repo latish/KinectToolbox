@@ -7,6 +7,7 @@ namespace Kinect.Toolbox.Record
     {
         Color = 1,
         Depth = 2,
-        Skeletons = 4
+        Skeletons = 4,
+        All =7
     }
 }

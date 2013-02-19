@@ -30,7 +30,6 @@ namespace Kinect.Toolbox
             get { return nuiCamera.MaxElevationAngle; }
         }
 
-
         public int ElevationMinimum
         {
             get { return nuiCamera.MinElevationAngle; }

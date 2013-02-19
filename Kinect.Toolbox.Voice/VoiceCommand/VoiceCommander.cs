@@ -67,8 +67,8 @@ namespace Kinect.Toolbox.Voice
 
             using (Stream sourceStream = source.Start())
             {
-                speechRecognitionEngine.SetInputToAudioStream(sourceStream, 
-                    new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+                 //speechRecognitionEngine.SetInputToAudioStream(sourceStream, new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+                speechRecognitionEngine.SetInputToDefaultAudioDevice();
 
                 while (isRunning)
                 {

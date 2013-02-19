@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Windows;
 using Kinect.Toolbox.Record;
 using Microsoft.Win32;
@@ -26,7 +27,7 @@ namespace GesturesViewer
         void DirectRecord(string targetFileName)
         {
             Stream recordStream = File.Create(targetFileName);
-            recorder = new KinectRecorder(KinectRecordOptions.Skeletons | KinectRecordOptions.Color, recordStream);
+            recorder = new KinectRecorder(KinectRecordOptions.All, recordStream,kinectSensor.CoordinateMapper.ColorToDepthRelationalParameters.ToArray());
             recordOption.Content = "Stop Recording";
         }
 
