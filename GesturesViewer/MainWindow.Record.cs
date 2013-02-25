@@ -28,6 +28,8 @@ namespace GesturesViewer
         {
             Stream recordStream = File.Create(targetFileName);
             recorder = new KinectRecorder(KinectRecordOptions.All, recordStream,kinectSensor.CoordinateMapper.ColorToDepthRelationalParameters.ToArray());
+	        voiceCommander.AudioFilePath = Path.ChangeExtension(targetFileName, ".wav");
+	        voiceCommander.RecordAudioToFile = true;
             recordOption.Content = "Stop Recording";
         }
 
@@ -35,6 +37,11 @@ namespace GesturesViewer
         {
             if (recorder != null)
             {
+                if (voiceCommander.RecordAudioToFile)
+                {
+	                voiceCommander.RecordAudioToFile = false;
+	                voiceCommander.AudioFilePath = "";
+                }
                 recorder.Stop();
                 recorder = null;
                 recordOption.Content = "Record";
